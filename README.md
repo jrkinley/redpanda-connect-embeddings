@@ -124,11 +124,11 @@ The Lab comprises of three parts:
 2. Use *Redpanda Connect* to consume the messages from the `documents` topic and pass each message through a custom processor that calls *OpenAI's embeddings API* to retrieve the vector embeddings for the text. The enriched messages are then inserted into a *MongoDB Atlas* database collection that has a vector search index.
 3. Complete the RAG pipeline by using *LangChain* to retrieve similar texts from the *MongoDB Atlas* database and add that context alongside a user question to a prompt that is sent to OpenAI's new `gpt-4o` model.
 
-### Start Redpanda Connect
+### Start Benthos 
 
 ```bash
 #
-# Terminal 1. Start Redpanda Connect with custom OpenAI processor.
+# Terminal 1. Start Benthos with custom OpenAI processor.
 #
 % go test
 PASS
