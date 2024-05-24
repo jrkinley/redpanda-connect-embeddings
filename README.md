@@ -1,9 +1,9 @@
-# Streaming Text Embeddings with Redpanda, OpenAI, and MongoDB
+# Streaming Text Embeddings for Retrieval Augmented Generation (RAG)
 
-Building a streaming RAG pipeline with Redpanda, OpenAI, and MongoDB Atlas.
+How to use Redpanda and Benthos to generate vector embeddings on streaming text.
 
 <p align="center">
-    <img src="./embeddings.png" width="750">
+    <img src="./embeddings.png" width="75%">
 </p>
 
 Retrieval Augmented Generation (RAG) is best described by [OpenAI](https://help.openai.com/en/articles/8868588-retrieval-augmented-generation-rag-and-semantic-search-for-gpts) as _"the process of retrieving relevant contextual information from a data source and passing that information to a large language model alongside the user's prompt. This information is used to improve the model's output by augmenting the model's base knowledge"._
