@@ -136,9 +136,9 @@ ok  	benthos-embeddings	2.472s
 
 % go build
 % export $(grep -v '^#' ./demo/.env | xargs)
-% ./benthos-embeddings -c demo/atlas_demo.yaml --log.level debug
+% ./benthos-embeddings -c demo/rag_demo.yaml --log.level debug
 
-INFO Running main config from specified file       @service=benthos benthos_version=v4.27.0 path=demo/atlas_demo.yaml
+INFO Running main config from specified file       @service=benthos benthos_version=v4.27.0 path=demo/rag_demo.yaml
 INFO Listening for HTTP requests at: http://0.0.0.0:4195  @service=benthos
 DEBU url: https://api.openai.com/v1/embeddings, model: text-embedding-3-small  @service=benthos label="" path=root.pipeline.processors.0
 INFO Launching a benthos instance, use CTRL+C to close  @service=benthos
