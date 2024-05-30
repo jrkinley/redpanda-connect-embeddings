@@ -21,7 +21,7 @@ def load_document(url: str):
     """Loads webpage and splits text into smaller documents."""
 
     loader = WebBaseLoader(url)
-    loader.requests_kwargs = {"verify": False}
+    loader.requests_kwargs = {"verify": True}
     page = loader.load()
     return _split(page)
 
@@ -64,7 +64,7 @@ def send_to_kafka(docs: List[Document]):
         v = {"text": d.page_content, "metadata": d.metadata}
         producer.produce(topics, value=json.dumps(v).encode("utf-8"))
     producer.flush()
-    print(f"Sent {len(docs)} documents to Redpanda topic: {topics}")
+    print(f"Sent {len(docs)} documents to Kafka topic: {topics}")
 
 
 def main():
