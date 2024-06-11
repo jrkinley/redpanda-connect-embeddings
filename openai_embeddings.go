@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/benthosdev/benthos/v4/public/service"
 )
@@ -65,6 +66,23 @@ type Document struct {
 	Embedding []float64              `json:"embedding"`
 }
 
+func (d Document) String() string {
+	var sb strings.Builder
+	var t = d.Text
+	if len(t) > 500 {
+		t = fmt.Sprintf("%s...", t[:497])
+	}
+	sb.WriteString(fmt.Sprintf("text: %s, ", t))
+	if len(d.Metadata) > 0 {
+		json, err := json.Marshal(d.Metadata)
+		if err == nil {
+			sb.WriteString(fmt.Sprintf("metadata: %s, ", json))
+		}
+	}
+	sb.WriteString(fmt.Sprintf("embedding: %d, ", len(d.Embedding)))
+	return sb.String()
+}
+
 func (e *embeddingsProcessor) Process(ctx context.Context, m *service.Message) (service.MessageBatch, error) {
 	bytes, err := m.AsBytes()
 	if err != nil {
@@ -78,13 +96,12 @@ func (e *embeddingsProcessor) Process(ctx context.Context, m *service.Message) (
 		result.Text = string(bytes)
 		result.Metadata = make(map[string]interface{})
 	}
-	e.logger.Debugf("received document with text: %s", result.Text)
 
 	if _, ok := result.Metadata["document_id"]; !ok {
 		// add id to uniquely identify the document
 		h := sha256.New()
 		h.Write([]byte(result.Text))
-		result.Metadata["document_id"] = h.Sum(nil)
+		result.Metadata["document_id"] = fmt.Sprintf("%x", h.Sum(nil))
 	}
 
 	req := &EmbeddingRequest{
@@ -102,6 +119,8 @@ func (e *embeddingsProcessor) Process(ctx context.Context, m *service.Message) (
 		return nil, errors.New("unexpected number of embeddings in response")
 	}
 	result.Embedding = resp.Data[0].Embedding
+	e.logger.Debugf("embedding result: %s", result.String())
+	fmt.Printf("embedding result: %s", result.String())
 
 	// increment token counters
 	e.promptTokens.Incr(int64(resp.Usage.PromptTokens))
