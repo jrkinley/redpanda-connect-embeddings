@@ -33,3 +33,6 @@ output:
       root.text = this.text
       root.metadata = this.metadata
       root.embedding = this.embedding
+
+metrics:
+  prometheus: {}
