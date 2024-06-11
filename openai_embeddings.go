@@ -92,7 +92,7 @@ func (e *embeddingsProcessor) Process(ctx context.Context, m *service.Message) (
 	result := Document{}
 	if err := json.Unmarshal(bytes, &result); err != nil {
 		// message can be a string (it does not have to be in json format)
-		e.logger.Error(fmt.Sprintf("document unmarshal error: %v", err))
+		e.logger.Error(fmt.Sprintf("document unmarshal error: %v\n", err))
 		result.Text = string(bytes)
 		result.Metadata = make(map[string]interface{})
 	}
@@ -119,8 +119,7 @@ func (e *embeddingsProcessor) Process(ctx context.Context, m *service.Message) (
 		return nil, errors.New("unexpected number of embeddings in response")
 	}
 	result.Embedding = resp.Data[0].Embedding
-	e.logger.Debugf("embedding result: %s", result.String())
-	fmt.Printf("embedding result: %s", result.String())
+	e.logger.Debugf("embedding result: %s\n", result.String())
 
 	// increment token counters
 	e.promptTokens.Incr(int64(resp.Usage.PromptTokens))
