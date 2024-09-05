@@ -1,3 +1,6 @@
+> [!NOTE]
+> This repository supplements the Medium story: [Streaming Text Embeddings for Retrieval Augmented Generation (RAG)](https://medium.com/@jameskinley/streaming-text-embeddings-for-retrieval-augmented-generation-rag-95da9249a548)
+
 # Streaming Text Embeddings for Retrieval Augmented Generation (RAG)
 
 How to use Redpanda and Benthos to generate vector embeddings on streaming text.
