@@ -32,11 +32,6 @@ EOF
 Log in to your MongoDB Atlas account (or sign up if you don't have one) and deploy a new [free cluster](https://www.mongodb.com/docs/atlas/getting-started) for development purposes. Create a new database named `VectorStore`, create a new collection in that database named `Embeddings`, and create an Atlas Vector Search index with the following JSON configuration:
 
 ```json
-// Note that the value for `numDimensions` should
-// match the length of the vector created by the
-// embedding model:
-//   - text-embedding-3-small: 1536
-//   - text-embedding-3-large: 3072
 {
   "fields": [
     {
