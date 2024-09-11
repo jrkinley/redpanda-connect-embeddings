@@ -1,5 +1,5 @@
-""" Uses LangChain's sitemap loader and text splitter to generate documents from redpanda.com.
-The documents are sent to a Redpanda topic. """
+""" Uses LangChain loaders and text splitter to create documents from a sitemap,
+or single webpage. The documents are sent to a Kafka topic. """
 
 import os
 import json
@@ -39,8 +39,7 @@ def load_sitemap(sitemap: str):
 def _split(docs: List[Document]) -> List[Document]:
     """Splits the documents into smaller chunks of text."""
 
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=2000, chunk_overlap=200)
+    splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
     chunks = splitter.split_documents(docs)
     print(f"Prepared {len(chunks)} documents")
     return chunks
@@ -58,13 +57,13 @@ def send_to_kafka(docs: List[Document]):
         conf["sasl.username"] = user
         conf["sasl.password"] = password
 
-    topics = os.getenv("REDPANDA_TOPICS")
+    topic = os.getenv("REDPANDA_TOPIC")
     producer = Producer(conf)
     for d in tqdm(docs, desc="Producing to Kafka", ascii=True):
         v = {"text": d.page_content, "metadata": d.metadata}
-        producer.produce(topics, value=json.dumps(v).encode("utf-8"))
+        producer.produce(topic, value=json.dumps(v).encode("utf-8"))
     producer.flush()
-    print(f"Sent {len(docs)} documents to Kafka topic: {topics}")
+    print(f"Sent {len(docs)} documents to Kafka topic: {topic}")
 
 
 def main():
